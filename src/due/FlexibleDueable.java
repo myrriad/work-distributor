@@ -2,26 +2,28 @@ package due;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.Period;
+import java.time.temporal.TemporalUnit;
 
 import due.workunit.WorkAmount;
 
-public class DayDueable implements IDueable{
+/***
+ * 
+ * supports times, ie. 3:25 pm
+ *
+ */
+class FlexibleDueable implements IDueable{
 
-	private LocalDateTime start;
-	LocalDateTime due;
-	private Period duration;
+	private final WorkAmount work;
+	private final LocalDateTime start;
+	private final LocalDateTime due;
+	private final Period duration;
 	
-	public DayDueable(LocalDateTime start, LocalDateTime due){
+	public FlexibleDueable(LocalDateTime start, LocalDateTime due, WorkAmount work){
 		this.start = start;
 		this.due = due;
 		this.duration = Period.between(start.toLocalDate(), due.toLocalDate());
-	}
-	public DayDueable(LocalDate start, LocalDate due){
-		this.start = start.atStartOfDay();
-		this.due = due.atStartOfDay();
-		this.duration = Period.between(start, due);
+		this.work = work;
 	}
 	
 	@Override
@@ -40,8 +42,7 @@ public class DayDueable implements IDueable{
 	}
 	@Override
 	public WorkAmount getWork() {
-		// TODO Auto-generated method stub
-		return null;
+		return work;
 	}
 
 }

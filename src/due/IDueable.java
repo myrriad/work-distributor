@@ -4,9 +4,12 @@ import java.time.LocalDateTime;
 import java.time.Period;
 
 import due.workunit.WorkAmount;
-public interface IDueable<W extends WorkAmount> {
+public interface IDueable {
 	
-	public W getWork();
+	public WorkAmount getWork();
+	public default double getWorkQuantity(){
+		return getWork().quantity();
+	}
 	
 	public LocalDateTime start();
 	public LocalDateTime due();

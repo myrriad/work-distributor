@@ -1,13 +1,17 @@
 package due.workunit;
 
 public class WorkAmount {
-	private int quantity;
-	public WorkAmount(int quantity){
+	private double quantity;
+	private WorkUnit unit;
+	public WorkAmount(WorkUnit unit, double quantity){
 		this.quantity = quantity;
+		this.unit = unit;
+	}
+	public WorkUnit unitType() {
+		return unit;
 	}
 	
-	
-	public int quantity() {
+	public double quantity() {
 		return quantity;
 	}
 	
