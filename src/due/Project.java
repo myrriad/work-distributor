@@ -2,12 +2,12 @@ package due;
 
 import java.time.LocalDate;
 
-import due.workunit.WorkAmount;
+import due.workunit.IObjective;
 
-public class Project extends DueableByDays {
+public class Project extends FlexibleDueable {
 
-	public Project(LocalDate start, LocalDate due, WorkAmount work) {
-		super(start, due, work);
+	public Project(LocalDate start, LocalDate due, IObjective work) {
+		super(start,due,work);
 	}
 
 }

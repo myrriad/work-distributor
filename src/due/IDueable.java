@@ -1,21 +1,17 @@
 package due;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
 
-import due.workunit.WorkAmount;
-public interface IDueable {
+import due.workunit.IObjective;
+public interface IDueable extends IObjective{
 	
-	public WorkAmount getWork();
-	public default double getWorkQuantity(){
-		return getWork().quantity();
-	}
+	// public IObjective getWork();
 	
 	public LocalDateTime start();
 	public LocalDateTime due();
-	public Period duration();
-	public default int durationDays(){
-		return duration().getDays();
-	}
+	public Period numDays();
+	public Duration numSecs();
 	
 }
