@@ -1,6 +1,7 @@
 package due.quota;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import due.FlexibleDueable;
 import due.workunit.IObjective;
@@ -15,6 +16,7 @@ public class DailyTotalQuota extends FlexibleDueable {
 	public DailyTotalQuota(LocalDate startIn, WorkQuantity... works) {
 		this(startIn, WorkClumper.from(works));
 	}
+	
 	
 	public DailyTotalQuota(LocalDate startIn, DailyProjectQuota... quotas) {
 		this(startIn, WorkClumper.from(quotas));

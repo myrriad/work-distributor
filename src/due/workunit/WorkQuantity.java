@@ -1,4 +1,9 @@
 package due.workunit;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /***
  * 
  * IMMUTABLE!
@@ -6,7 +11,7 @@ package due.workunit;
  * @author phlaxyr
  *
  */
-public class WorkQuantity implements IObjective {
+public final class WorkQuantity implements IObjective {
 	private final double quantity;
 	private final WorkType unit;
 	public WorkQuantity(WorkType unit, double quantity){
@@ -45,8 +50,10 @@ public class WorkQuantity implements IObjective {
 	}
 	@Deprecated
 	@Override
-	public WorkQuantity[] getTypes() {
-		return new WorkQuantity[]{this};
+	public List<WorkQuantity> getTypes() {
+		List<WorkQuantity> temp = new ArrayList<WorkQuantity>();
+		temp.add(this);
+		return Collections.unmodifiableList(temp);
 	}
 	@Deprecated
 	@Override

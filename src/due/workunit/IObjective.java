@@ -1,5 +1,7 @@
 package due.workunit;
 
+import java.util.List;
+
 /**
  * Anything that needs to be done
  * For example, 3 pages AND 7 paragraphs
@@ -7,6 +9,10 @@ package due.workunit;
  *
  */
 public interface IObjective {
-	public WorkQuantity[] getTypes();
+	/**
+	 * Make it an immutable list
+	 * @return
+	 */
+	public List<WorkQuantity> getTypes();
 	public double quantityOf(WorkType type);
 }

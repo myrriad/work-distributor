@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.List;
 
 import due.workunit.IObjective;
 import due.workunit.WorkQuantity;
@@ -52,7 +53,7 @@ public class FlexibleDueable implements IDueable{
 		return work;
 	}
 	@Override
-	public WorkQuantity[] getTypes() {
+	public List<WorkQuantity> getTypes() {
 		return work.getTypes();
 	}
 	@Override
