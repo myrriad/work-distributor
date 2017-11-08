@@ -4,7 +4,8 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.List;
+
+import com.google.common.collect.ImmutableList;
 
 import due.workunit.IObjective;
 import due.workunit.WorkQuantity;
@@ -53,7 +54,7 @@ public class FlexibleDueable implements IDueable{
 		return work;
 	}
 	@Override
-	public List<WorkQuantity> getTypes() {
+	public ImmutableList<WorkQuantity> getTypes() {
 		return work.getTypes();
 	}
 	@Override

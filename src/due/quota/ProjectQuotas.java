@@ -1,14 +1,24 @@
 package due.quota;
 
-public class ProjectQuotas {
-	DailyProjectQuota[] quotas;
-	/*
-	public ProjectQuotas(DailyProjectQuota[] quotas){
-		
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
+
+/**
+ * Immutable
+ * @author phlaxyr
+ *
+ */
+public final class ProjectQuotas {
+	final ImmutableList<DailyProjectQuota> quotas;
+	
+	
+	public ProjectQuotas(ImmutableList<DailyProjectQuota> quotas){
+		this.quotas = quotas;
 	}
 	
 	
-	public DailyProjectQuota[] quotas() {
-		
-	}*/
+	public List<DailyProjectQuota> quotas() {
+		return quotas;
+	}//*/
 }

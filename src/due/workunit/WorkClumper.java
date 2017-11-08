@@ -1,23 +1,39 @@
 package due.workunit;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+
+import com.google.common.collect.ImmutableList;
 
 import due.IDueable;
 
+/**
+ * Immutable!
+ * @author phlaxyr
+ *
+ */
 public class WorkClumper {
+	public static IObjective from(List<WorkQuantity>quantities){
+		return immute(quantities);
+	}
+	public static IObjective from(WorkQuantity...quantities) {
+		return immute(quantities);
+	}
+	private static Clump immute(List<WorkQuantity>quantities){
+		return new Clump(ImmutableList.copyOf(quantities));
+	}
+	private static Clump immute(WorkQuantity...quantities){
+		return new Clump(ImmutableList.copyOf(quantities));
+	}
+	//  3 practically exact same declarations
 	public static IObjective from(IDueable... dueables) {
-			List<WorkQuantity> amounts = new ArrayList<>();
-			for(IDueable due: dueables) {
-				for(WorkQuantity work : due.getTypes()) {
-					amounts.add(work);
-				}
+		List<WorkQuantity> amounts = new ArrayList<>();
+		for (IDueable due : dueables) {
+			for (WorkQuantity work : due.getTypes()) {
+				amounts.add(work);
 			}
-			return new Clump(amounts);
-		
+		}
+		return immute(amounts);
 	}
 	public static IObjective merge(Clump...composites){
 		List<WorkQuantity> temp = new ArrayList<>();
@@ -26,7 +42,7 @@ public class WorkClumper {
 				temp.add(amount);
 			}
 		}
-		return new Clump(temp);
+		return immute(temp);
 	}
 	public static IObjective merge(Iterable<Clump> composites) {
 		List<WorkQuantity> temp = new ArrayList<>();
@@ -35,31 +51,22 @@ public class WorkClumper {
 				temp.add(amount);
 			}
 		}
-		return new Clump(temp);
+		return immute(temp);
 	}
-	public static IObjective from(List<WorkQuantity>quantities){
-		return new Clump(quantities);
-	}
-	public static IObjective from(WorkQuantity...quantities) {
-		return new Clump(Collections.unmodifiableList(Arrays.asList(quantities)));
-	}
-	static WorkQuantity[] toArray(List<WorkQuantity> list) {
-		return list.toArray(new WorkQuantity[list.size()]);
-	}
+	
 	public static class Clump implements IObjective {
 		
 		/**
 		 * Assume that it's fixed size
 		 */
-		private final List<WorkQuantity> works;
+		private final ImmutableList<WorkQuantity> works;
 		
 		
 		/**
-		 * Use WorkMultiFactory
-		 * @param works
+		 * YAY ImmutableList
 		 */
-		Clump(List<WorkQuantity> works) { 
-			this.works = Collections.unmodifiableList(works);
+		Clump(ImmutableList<WorkQuantity> works) { 
+			this.works = ImmutableList.copyOf(works);
 		}
 		/*
 		public WorkMulti(IDueable... dues) {
@@ -72,7 +79,7 @@ public class WorkClumper {
 			works = toArray(amounts);
 		}*/
 				
-		public List<WorkQuantity> getTypes(){
+		public ImmutableList<WorkQuantity> getTypes(){
 			return works;
 		}
 		public double quantityOf(WorkType type){

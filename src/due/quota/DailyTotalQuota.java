@@ -1,7 +1,6 @@
 package due.quota;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import due.FlexibleDueable;
 import due.workunit.IObjective;

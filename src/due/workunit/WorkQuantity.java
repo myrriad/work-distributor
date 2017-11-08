@@ -1,8 +1,6 @@
 package due.workunit;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.google.common.collect.ImmutableList;
 
 /***
  * 
@@ -48,12 +46,15 @@ public final class WorkQuantity implements IObjective {
 	public boolean canConvertToHours(){
 		return unit.canConvert();
 	}
+	/**
+	 * This is safe to use -- however, if you're seeing this,
+	 * then you should use the `quantity()` and `type()` methods instead,
+	 * so as to not wrap the things into immutablelists
+	 */
 	@Deprecated
 	@Override
-	public List<WorkQuantity> getTypes() {
-		List<WorkQuantity> temp = new ArrayList<WorkQuantity>();
-		temp.add(this);
-		return Collections.unmodifiableList(temp);
+	public ImmutableList<WorkQuantity> getTypes() {
+		return ImmutableList.of(this);
 	}
 	@Deprecated
 	@Override
