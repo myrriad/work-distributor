@@ -11,7 +11,21 @@ public interface IDueable extends IObjective{
 	
 	public LocalDateTime start();
 	public LocalDateTime due();
-	public Period numDays();
-	public Duration numSecs();
+	/**
+	 * Period in days
+	 * @return
+	 */
+	public Period durDays();
+	public default int intDays(){
+		return durDays().getDays();
+	}
+	public default long intSecs(){
+		return durSecs().getSeconds();
+	}
+	/**
+	 * Duration in seconds
+	 * @return
+	 */
+	public Duration durSecs();
 	
 }

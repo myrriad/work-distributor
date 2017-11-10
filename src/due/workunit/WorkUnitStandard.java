@@ -12,6 +12,8 @@ public class WorkUnitStandard {
 	public static final WorkType WORD = new WorkType(0, "word");
 	public static final WorkType QUESTION = new WorkType(0, "question");
 	
+	public static final WorkType UNDEFINED = new WorkType(0,"undefined");
+	
 	
 	public static final WorkType HOUR = new WorkType(1, "hour");
 }

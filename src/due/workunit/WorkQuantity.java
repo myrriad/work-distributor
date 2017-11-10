@@ -16,11 +16,11 @@ public final class WorkQuantity implements IObjective {
 		this.quantity = quantity;
 		this.unit = unit;
 	}
-	public WorkType type() {
+	public WorkType getType() {
 		return unit;
 	}
 	
-	public double quantity() {
+	public double getQuantity() {
 		return quantity;
 	}
 	/***
@@ -31,8 +31,8 @@ public final class WorkQuantity implements IObjective {
 	 * The sum of this and the parameter toAdd. If the types are incompatible, then null isreturned.
 	 */
 	public WorkQuantity plus(WorkQuantity toAdd){
-		if(unit.equals(toAdd.type())) {
-			return new WorkQuantity(unit, quantity + toAdd.quantity());
+		if(unit.equals(toAdd.getType())) {
+			return new WorkQuantity(unit, quantity + toAdd.getQuantity());
 		}
 		return null;
 	}
@@ -41,26 +41,59 @@ public final class WorkQuantity implements IObjective {
 	 * @return
 	 */
 	public double convertToHours(){
-		return unit.getHoursPerUnit();
+		return unit.getHoursPerUnit() * getQuantity();
 	}
 	public boolean canConvertToHours(){
 		return unit.canConvert();
 	}
 	/**
 	 * This is safe to use -- however, if you're seeing this,
-	 * then you should use the `quantity()` and `type()` methods instead,
+	 * then you should use the `quantity()` and `type()` methods and `this` instead,
 	 * so as to not wrap the things into immutablelists
 	 */
 	@Deprecated
 	@Override
-	public ImmutableList<WorkQuantity> getTypes() {
+	public ImmutableList<WorkQuantity> getQuantities() {
 		return ImmutableList.of(this);
 	}
+	/**
+	 * This is safe to use -- however, if you're seeing this,
+	 * then you should use the `quantity()` and `type()` methods and `this` instead,
+	 * so as to not wrap the things into immutablelists
+	 */
 	@Deprecated
 	@Override
 	public double quantityOf(WorkType type) {
-		if(type == this.type()) return quantity();
+		if(type == this.getType()) return getQuantity();
 		return 0;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(quantity);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((unit == null) ? 0 : unit.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WorkQuantity other = (WorkQuantity) obj;
+		if (Double.doubleToLongBits(quantity) != Double.doubleToLongBits(other.quantity))
+			return false;
+		if (unit == null) {
+			if (other.unit != null)
+				return false;
+		} else if (!unit.equals(other.unit))
+			return false;
+		return true;
 	}
 	
 	

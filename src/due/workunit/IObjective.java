@@ -13,6 +13,6 @@ public interface IObjective {
 	 * Make it an immutable list
 	 * @return
 	 */
-	public ImmutableList<WorkQuantity> getTypes();
+	public ImmutableList<WorkQuantity> getQuantities();
 	public double quantityOf(WorkType type);
 }

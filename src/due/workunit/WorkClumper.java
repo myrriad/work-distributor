@@ -1,7 +1,9 @@
 package due.workunit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 
@@ -29,7 +31,7 @@ public class WorkClumper {
 	public static IObjective from(IDueable... dueables) {
 		List<WorkQuantity> amounts = new ArrayList<>();
 		for (IDueable due : dueables) {
-			for (WorkQuantity work : due.getTypes()) {
+			for (WorkQuantity work : due.getQuantities()) {
 				amounts.add(work);
 			}
 		}
@@ -38,7 +40,7 @@ public class WorkClumper {
 	public static IObjective merge(Clump...composites){
 		List<WorkQuantity> temp = new ArrayList<>();
 		for(Clump composite : composites) {
-			for(WorkQuantity amount : composite.getTypes()) {
+			for(WorkQuantity amount : composite.getQuantities()) {
 				temp.add(amount);
 			}
 		}
@@ -47,7 +49,7 @@ public class WorkClumper {
 	public static IObjective merge(Iterable<Clump> composites) {
 		List<WorkQuantity> temp = new ArrayList<>();
 		for(Clump composite : composites) {
-			for(WorkQuantity amount : composite.getTypes()) {
+			for(WorkQuantity amount : composite.getQuantities()) {
 				temp.add(amount);
 			}
 		}
@@ -62,10 +64,45 @@ public class WorkClumper {
 		private final ImmutableList<WorkQuantity> works;
 		
 		
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((works == null) ? 0 : works.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Clump other = (Clump) obj;
+			if (works == null) {
+				if (other.works != null)
+					return false;
+			} else if (!works.equals(other.works))
+				return false;
+			return true;
+		}
+
 		/**
 		 * YAY ImmutableList
 		 */
 		Clump(ImmutableList<WorkQuantity> works) { 
+			Map<WorkType, WorkQuantity> dedup = new HashMap<>();
+			for(WorkQuantity work : works) {
+				WorkType type = work.getType();
+				if(dedup.containsKey(type)) {
+					WorkQuantity old = dedup.get(type);
+					dedup.put(type, old.plus(work));
+				} else {
+					dedup.put(type, work);
+				}
+			}
 			this.works = ImmutableList.copyOf(works);
 		}
 		/*
@@ -79,14 +116,14 @@ public class WorkClumper {
 			works = toArray(amounts);
 		}*/
 				
-		public ImmutableList<WorkQuantity> getTypes(){
+		public ImmutableList<WorkQuantity> getQuantities(){
 			return works;
 		}
 		public double quantityOf(WorkType type){
 			double total = 0;
 			for(WorkQuantity w : works) {
-				if(w.type().equals(type)) {
-					total += w.quantity();
+				if(w.getType().equals(type)) {
+					total += w.getQuantity();
 				}
 			}
 			return total;
